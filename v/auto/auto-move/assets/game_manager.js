@@ -28,7 +28,7 @@ function GameManager(size, InputManager, Actuator, StorageManager, AutoManager) 
 }
 
 GameManager.prototype.downloadBots = function () {
-  fetch("https://raw.githubusercontent.com/NumbersTada/numberstada.github.io/refs/heads/main/2048/v/auto/auto-move/bots.js", {cache: "no-store"})
+  fetch("https://raw.githubusercontent.com/NumbersTada/2048/refs/heads/main/v/auto/auto-move/bots.js", {cache: "no-store"})
     .then(response => response.text())
     .then(data => {
       window.game.bots = eval(data); // Scary, but you can't add your own bots without verification (unless you hack my GitHub :skull:)

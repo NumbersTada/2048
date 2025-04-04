@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Hover Effect</title>
+</head>
+<body>
+
+<div class="button-container">
+    <a class="restart-button" id="kocka" href="#">New Game</a>
+    <button onclick="kocka()" class="undo-button">Undo</button>
+</div>
+
+
+<div id="capture" style="padding: 10px; background: #f5da55">
+    <h4 style="color: #000; ">Hello world!</h4>
+</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <style>
+        /* Inline CSS for demonstration */
+        .button-container {
+            display: flex; /* Use flexbox for button alignment */
+            justify-content: center; /* Center buttons horizontally */
+            margin-top: 20px; /* Space above buttons */
+        }
+
+        .restart-button, .undo-button {
+            display: inline-block; /* Allows padding and width */
+            background: #8f7a66; /* Original background color */
+            border-radius: 3px;
+            padding: 10px 20px; /* Adjust padding for better appearance */
+            text-decoration: none; /* Remove underline from links */
+            color: #f9f6f2; /* Text color */
+            height: 40px; /* Fixed height */
+            line-height: 40px; /* Center text vertically */
+            text-align: center; /* Center text horizontally */
+            margin-left: 10px; /* Space between buttons */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for background and scaling */
+        }
+
+        /* Hover effect */
+        .restart-button:hover, .undo-button:hover {
+            background-color: #7b6a57; /* Darkened version of original color */
+            transform: scale(1.05); /* Slightly scale up on hover for effect */
+        }
+    </style>
+    <script>
+function saveBytesToFile(filename, bytes) {
+    // Create a new Blob with the bytes
+    const blob = new Blob([bytes], { type: 'application/octet-stream' });
+
+    // Create a link element
+    const link = document.createElement('a');
+
+    // Create a URL for the Blob and set it as the href
+    link.href = URL.createObjectURL(blob);
+
+    // Set the download attribute with the filename
+    link.download = filename;
+
+    // Append the link to the body (required for Firefox)
+    document.body.appendChild(link);
+
+    // Programmatically click the link to trigger the download
+    link.click();
+
+    // Clean up and remove the link
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href); // Free up memory
+}
+console.log("kočka")
+document.getElementById("kocka").addEventListener("click",function () {
+// Example usage:
+const filename = 'example.txt';
+const content = 'KočKočKočKočKočKočKočKočKočKočKočKočKočKočKočKočKočKočKočKočKočKočKočKočKočKoč';
+const encoder = new TextEncoder();
+const bytes = encoder.encode(content); // Convert string to Uint8Array
+saveBytesToFile(filename, bytes);})
+function kocka() {
+
+        uaua=html2canvas(document.querySelector('.restart-button'))
+        console.log(uaua)
+        uaua.log()
+        uaua.then(canvas => {
+            // Convert the canvas to a data URL
+            const imgData = canvas.toDataURL('image/png');
+
+            // Create a link element
+            const link = document.createElement('a');
+            link.href = imgData;
+            link.download = 'div-image.png'; // Set the filename
+
+            // Programmatically click the link to trigger the download
+            link.click();})}
+
+    </script>
+</body>
+</html>

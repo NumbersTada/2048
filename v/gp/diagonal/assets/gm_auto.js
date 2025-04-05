@@ -10,7 +10,59 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
 
+  this.randomMoves = [0,1,7,4,5];
+  setInterval(this.autoFrame.bind(this), 0);
+
   this.setup();
+}
+
+function centerText(text, width) {
+  if (text.length >= width) return text;
+  var totalPadding = width - text.length;
+  var leftPadding = Math.ceil(totalPadding / 2);
+  var rightPadding = totalPadding - leftPadding;
+  return " ".repeat(leftPadding) + text + " ".repeat(rightPadding);
+}
+
+GameManager.prototype.autoStep = function () {
+  if (this.isGameTerminated()) return;
+  var moved = false;
+  var move = 0;
+  while (!moved && move < this.randomMoves.length) {
+    move++;
+    moved = this.move(this.randomMoves[Math.floor(Math.random() * this.randomMoves.length)]);
+  }
+  var iters = 0;
+  while (!moved && iters < 8) {
+    moved = this.move(iters);
+    iters++;
+  }
+  if (this.over) {
+    var grid = "-".repeat(5 * this.size + 1) + "\n";
+    var row, tile;
+    for (var y = 0; y < this.size; y++) {
+      grid += "|";
+      for (var x = 0; x < this.size; x++) {
+        tile = this.grid.cells[x][y];
+        if (!tile) tile = { value: 0 };
+        grid += tile.value.toString().padStart(4) + "|";
+      }
+      grid += "\n" + "-".repeat(5 * this.size + 1) + (y == this.size - 1 ? "" : "\n");
+    }
+    console.log("Game ended at score " + this.score + ", ending grid:\n" + grid)
+    this.restart();
+    this.actuator.clearMessage();
+  }
+  if (!moved) console.log("god dammit");
+}
+
+GameManager.prototype.autoFrame = function () {
+  var elapsed = 0;
+  var startTime = performance.now() / 1000;
+  while (elapsed < 1/20000) {
+    this.autoStep();
+    elapsed = performance.now() / 1000 - startTime;
+  }
 }
 
 // Restart the game

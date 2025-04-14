@@ -38,9 +38,9 @@ function GameManager(sizeX, sizeY, InputManager, Actuator, StorageManager) {
     this.guiScale = 1;
   };
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const width = parseInt(urlParams.get("width"));
-  const height = parseInt(urlParams.get("height"));
+  var urlParams = new URLSearchParams(window.location.search);
+  var width = parseInt(urlParams.get("width"));
+  var height = parseInt(urlParams.get("height"));
   if (width && height) this.storageManager.setSelected(width, height);
   //else this.delParams("width","height")
 
@@ -77,16 +77,16 @@ GameManager.prototype.getGoal = function () {
 
 
 GameManager.prototype.delParams = function (...keys) {
-  const url = new URL(window.location);
-  const params = new URLSearchParams(url.search);
+  var url = new URL(window.location);
+  var params = new URLSearchParams(url.search);
   keys.forEach(key => {params.delete(key)});
   url.search = params.toString();
   window.history.replaceState({}, "", url);
 }
 
 GameManager.prototype.setParam = function (key, value) {
-  const url = new URL(window.location);
-  const params = new URLSearchParams(url.search);
+  var url = new URL(window.location);
+  var params = new URLSearchParams(url.search);
   params.set(key, value);
   url.search = params.toString();
   window.history.replaceState({}, "", url);
@@ -245,7 +245,7 @@ GameManager.prototype.setup = function (undoNoReset = false, closePopups = true)
 };
 
 GameManager.prototype.updateGrid = function () {
-  const gridContainer = document.querySelector(".grid-container");
+  var gridContainer = document.querySelector(".grid-container");
 
   var gridHTML = "";
 
@@ -418,11 +418,11 @@ GameManager.prototype.timeUpdateInit = function () {
 }
 
 GameManager.prototype.formatTime = function (time) {
-  const t = new Date(time);
-  const h = t.getUTCHours();
-  const m = t.getUTCMinutes();
-  const s = t.getUTCSeconds();
-  const ms = t.getUTCMilliseconds();
+  var t = new Date(time);
+  var h = t.getUTCHours();
+  var m = t.getUTCMinutes();
+  var s = t.getUTCSeconds();
+  var ms = t.getUTCMilliseconds();
   return (h?h+":":"")+(h||m?(""+m).padStart(h?2:0,"0")+":":"")+(""+s).padStart(h||m?2:0,"0")+"."+(""+ms).padStart(3,"0");
 }
 
@@ -634,7 +634,7 @@ GameManager.prototype.movesAvailable = function () {
     var gridClone = deepcopy(this.grid);
     var gridBackup = this.grid;
     this.grid = gridClone;
-    const moved = this.move(dir, actuate = false);
+    var moved = this.move(dir, actuate = false);
     possible = possible || moved;
     this.grid = gridBackup;
   };

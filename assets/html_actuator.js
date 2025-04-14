@@ -305,19 +305,26 @@ HTMLActuator.prototype.positionClass = function (position) {
 };
 
 HTMLActuator.prototype.formatNumber = function (num) {
-    if (num === null || num === undefined) return "";
-    var suffixes = ["", "k", "M", "B", "T", "Q"];
-    var suffixIndex = 0;
-    
-    var isNegative = num < 0;
-    num = Math.abs(num);
-    
-    while (num >= 1000 && suffixIndex < suffixes.length - 1) {
-        num /= 1000;
-        suffixIndex++;
-    }
-    return (isNegative ? "-" : "") + num.toFixed(num % 1 === 0 ? 0 : 1) + suffixes[suffixIndex];
-}
+  if (num === null || num === undefined) return "";
+
+  var suffixes = ["", "k", "M", "B", "T", "Q"];
+  var suffixIndex = 0;
+  var isNegative = num < 0;
+
+  num = Math.abs(num);
+
+  while (num >= 1000 && suffixIndex < suffixes.length - 1) {
+    num /= 1000;
+    suffixIndex++;
+  }
+
+  var formatted = num.toFixed(1);
+  if (formatted.endsWith(".0")) {
+    formatted = formatted.slice(0, -2);
+  }
+
+  return (isNegative ? "-" : "") + formatted + suffixes[suffixIndex];
+};
 
 
 HTMLActuator.prototype.updateScore = function (score) {
